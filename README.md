@@ -1,6 +1,6 @@
 # Image Steganography with LSB Technique 📷🔒
 
-Welcome to the **Image Steganography** project! This project demonstrates how to hide secret messages within images using the Least Significant Bit (LSB) technique. 
+Welcome to the Image Steganography project! The program uses the Least Significant Bit (LSB) method to hide information within images. This technique ensures that the hidden data is imperceptible to the human eye, making it an effective method for securely embedding secret messages. Whether you are looking to protect sensitive information or simply explore the fascinating world of steganography.
 
 ## What is Steganography? 🤔
 
@@ -8,12 +8,17 @@ Steganography is the practice of concealing messages or information within other
 
 ## Least Significant Bit (LSB) Technique 🧩
 
-The LSB technique is one of the simplest methods of steganography. It involves modifying the least significant bit of each pixel in an image. Since the change is minimal, it is generally imperceptible to the human eye.
+The LSB technique is one of the easiest ways to hide information in images. Each color pixel in an image is made up of red, green, and blue parts, each stored in one byte. The idea is to hide information in the least significant bit (the smallest bit) of each color part of the pixel. This tiny change is usually not noticeable to the human eye. If there isn't enough space to hide all the information in the least significant bit, the program will start using the second least significant bit, and so on. However, the more data you hide, the easier it becomes to detect.
+
+### LSBSteg module 🛠️
+
+The LSBSteg module uses OpenCV to hide data in images. It works by storing information in the first bit of every pixel's color. If the first bit is full, it moves to the second bit. The program can hide all the data as long as there is enough space in the image.
 
 ### How It Works
 
-1. **Encoding**: The secret message is converted into a binary format. Each bit of the message is then embedded into the least significant bit of the image pixels.
-2. **Decoding**: The process is reversed to extract the hidden message from the image.
+1. **Encoding**: The secret message is converted into a binary format. Each bit of the message is then embedded into the least significant bit of the image pixels. This process ensures that the visual changes to the image are minimal and not noticeable to the human eye.
+ 
+2. **Decoding**: The process is reversed to extract the hidden message from the image. By reading the least significant bits of each pixel, the binary data is reconstructed and converted back into the original message.
 
 ## Running the Application 🛠️
 
@@ -26,87 +31,23 @@ git clone https://github.com/yourusername/image_steganography.git
 cd image_steganography
 pip install -r requirements.txt
 ```
+
 Execute the following command:
 
 ```bash
 python app.py
 ```
 
-### Running on Google Colab
+### Run on Google Colab
 
 You can also run the project on Google Colab by clicking the link below:
 
-[Run on Google Colab](https://colab.research.google.com/github/kshuxx/image_steganography/blob/main/image_steganography.ipynb)
-
-## Usage 🛠️
-
-### Encoding a Message
-
-To encode a secret message into an image, use the `encode_text_image` function:
-
-```python
-import cv2
-from steganography import encode_text_image
-
-carrier_image = 'path/to/carrier_image.png'
-secret_text = 'Your secret message here'
-
-encoded_image = encode_text_image(carrier_image, secret_text)
-print(f"Encoded image saved as {encoded_image}")
-```
-
-### Decoding a Message
-
-To decode a secret message from an image, use the `decode_text_image` function:
-
-```python
-import cv2
-from steganography import decode_text_image
-
-encoded_image = 'path/to/encoded_image.png'
-
-hidden_text = decode_text_image(encoded_image)
-print(f"Hidden text: {hidden_text}")
-```
+<a href="https://colab.research.google.com/github/kshuxx/image_steganography/blob/main/image_steganography.ipynb"><img alt="Run on Google Colab" src="https://img.shields.io/badge/Colab-F9AB00?style=for-the-badge&logo=googlecolab&color=525252">
+</a>
 
 ## Gradio Interface 🌐
 
-We have also provided a user-friendly web interface using Gradio. You can encode and decode messages directly from your browser.
-
-### Launch the App
-
-```python
-import gradio as gr
-
-# Gradio interface for encoding text into an image
-encode_interface = gr.Interface(
-    fn=encode_text_image,
-    inputs=[
-        gr.Image(type="filepath", label="Carrier Image"),
-        gr.Textbox(label="Secret Text")
-    ],
-    outputs=gr.File(label="Download Encoded Image"),
-    title="Encode Text into Image",
-    description="Upload a carrier image and enter the secret text to encode the text into the image."
-)
-
-# Gradio interface for decoding text from an image
-decode_interface = gr.Interface(
-    fn=decode_text_image,
-    inputs=gr.Image(type="filepath", label="Encoded Image"),
-    outputs=gr.Textbox(label="Decoded Text"),
-    title="Decode Text from Image",
-    description="Upload an encoded image to extract the hidden text."
-)
-
-# Launch the Gradio app with tabbed interfaces for encoding and decoding
-app = gr.TabbedInterface([encode_interface, decode_interface], ["Encode", "Decode"])
-app.launch()
-```
-
-## Contributing 🤝
-
-We welcome contributions! Please fork the repository and submit a pull request.
+We have also provided a user-friendly web interface using Gradio. You can encode and decode messages directly from your browser. The interface is intuitive and easy to use, making it accessible even for those who are not familiar with coding. Simply upload your image, enter the text you want to hide or reveal, and let the application do the rest. This feature ensures that you can securely encode and decode messages.
 
 ## License 📄
 
