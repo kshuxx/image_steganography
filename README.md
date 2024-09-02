@@ -14,17 +14,19 @@ The LSB technique is one of the easiest ways to hide information in images. Each
 
 The LSBSteg module uses OpenCV to hide data in images. It works by storing information in the first bit of every pixel's color. If the first bit is full, it moves to the second bit. The program can hide all the data as long as there is enough space in the image.
 
+Inspired by the work of  [RobinDavid/LSB-Steganography](https://github.com/RobinDavid/LSB-Steganography).
+
 ### How It Works
 
 1. **Encoding**: The secret message is converted into a binary format. Each bit of the message is then embedded into the least significant bit of the image pixels. This process ensures that the visual changes to the image are minimal and not noticeable to the human eye.
  
 2. **Decoding**: The process is reversed to extract the hidden message from the image. By reading the least significant bits of each pixel, the binary data is reconstructed and converted back into the original message.
 
-## Running the Application 🛠️
+## Running the Application ⚙️
 
 ### Running Locally
 
-Clone the repository and install the required dependencies:
+Clone the repository and install the required dependencies:s
 
 ```bash
 git clone https://github.com/yourusername/image_steganography.git
@@ -38,12 +40,19 @@ Execute the following command:
 python app.py
 ```
 
-### Run on Google Colab
+### Run on web 📡
 
-You can also run the project on Google Colab by clicking the link below:
+You can also run the project on **Google Colab** and **Hugging Face**:
 
-<a href="https://colab.research.google.com/github/kshuxx/image_steganography/blob/main/image_steganography.ipynb"><img alt="Run on Google Colab" src="https://img.shields.io/badge/Colab-F9AB00?style=for-the-badge&logo=googlecolab&color=525252">
-</a>
+<div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: left;">
+    <a href="https://colab.research.google.com/github/kshuxx/image_steganography/blob/main/image_steganography.ipynb">
+        <img alt="Run on Google Colab" src="https://img.shields.io/badge/Colab-F9AB00?style=for-the-badge&logo=googlecolab&color=525252">
+    </a>
+    <a href="https://kshuxx-image-steganography.hf.space">
+        <img alt="Run on Hugging Face" src="https://img.shields.io/badge/hugging_face-F9AB00?style=for-the-badge&logo=huggingface&color=525252">
+    </a>
+</div>
+
 
 ## Gradio Interface 🌐
 
