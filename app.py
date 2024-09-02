@@ -92,25 +92,25 @@ class LSBSteg():
 
     # Method to encode text into the image
     def encode_text(self, txt):
+        txt = txt.encode('utf-8')  # Encode text to bytes
         l = len(txt)
-        binl = self.binary_value(l, 16)
+        binl = self.binary_value(l, 32)  # Use 32 bits to store the length
         self.put_binary_value(binl)
-        for char in txt:
-            c = ord(char)
-            self.put_binary_value(self.byteValue(c))
+        for byte in txt:
+            self.put_binary_value(self.byteValue(byte))
         return self.image
 
     # Method to decode text from the image
     def decode_text(self):
-        ls = self.read_bits(16)
+        ls = self.read_bits(32)
         l = int(ls, 2)
         i = 0
-        unhideTxt = ""
+        unhideTxt = bytearray()
         while i < l:
             tmp = self.read_byte()
             i += 1
-            unhideTxt += chr(int(tmp, 2))
-        return unhideTxt
+            unhideTxt.append(int(tmp, 2))
+        return unhideTxt.decode('utf-8')
 
 # Function to encode secret text into a carrier image
 def encode_text_image(carrier_image, secret_text):
@@ -136,7 +136,7 @@ encode_interface = gr.Interface(
         gr.Textbox(label="Secret Text")
     ],
     outputs=gr.File(label="Download Encoded Image"),
-    title="Encode Text into Image",
+    title="<h2 style='text-align: center;'>Encode Text into Image 🔐</h2>",
     description="Upload a carrier image and enter the secret text to encode the text into the image."
 )
 
@@ -145,10 +145,10 @@ decode_interface = gr.Interface(
     fn=decode_text_image,
     inputs=gr.Image(type="filepath", label="Encoded Image"),
     outputs=gr.Textbox(label="Decoded Text"),
-    title="Decode Text from Image",
+    title="<h2 style='text-align: center;'>Decode Text from Image 🔑</h2>",
     description="Upload an encoded image to extract the hidden text."
 )
 
 # Launch the Gradio app with tabbed interfaces for encoding and decoding
-app = gr.TabbedInterface([encode_interface, decode_interface], ["Encode", "Decode"])
+app = gr.TabbedInterface([encode_interface, decode_interface], ["Encode", "Decode"], title="Image Steganography")
 app.launch()
