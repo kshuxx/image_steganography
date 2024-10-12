@@ -1,6 +1,9 @@
 import cv2
 import numpy as np
 import gradio as gr
+from cryptography.fernet import Fernet, InvalidToken
+import base64
+import hashlib
 
 # Custom exception for steganography errors
 class SteganographyException(Exception):
@@ -112,41 +115,69 @@ class LSBSteg():
             unhideTxt.append(int(tmp, 2))
         return unhideTxt.decode('utf-8')
 
-# Function to encode secret text into a carrier image
-def encode_text_image(carrier_image, secret_text):
+# Function to generate a key from a password
+def generate_key(password):
+    # Use SHA-256 to hash the password and use it as a key
+    return base64.urlsafe_b64encode(hashlib.sha256(password.encode()).digest())
+
+# Function to encrypt text with a password
+def encrypt_text(text, password):
+    key = generate_key(password)
+    fernet = Fernet(key)
+    encrypted_text = fernet.encrypt(text.encode())
+    return encrypted_text
+
+# Function to decrypt text with a password
+def decrypt_text(encrypted_text, password):
+    key = generate_key(password)
+    fernet = Fernet(key)
+    decrypted_text = fernet.decrypt(encrypted_text).decode()
+    return decrypted_text
+
+# Function to encode secret text into a carrier image with encryption
+def encode_text_image(carrier_image, secret_text, password):
+    encrypted_text = encrypt_text(secret_text, password)
     in_img = cv2.imread(carrier_image)
     steg = LSBSteg(in_img)
-    res = steg.encode_text(secret_text)
+    res = steg.encode_text(encrypted_text.decode('utf-8'))
     output_image = "encoded_image.png"
     cv2.imwrite(output_image, res)
     return output_image
 
-# Function to decode secret text from an encoded image
-def decode_text_image(encoded_image):
-    in_img = cv2.imread(encoded_image)
-    steg = LSBSteg(in_img)
-    hidden_text = steg.decode_text()
-    return hidden_text
+# Function to decode secret text from an encoded image with decryption
+def decode_text_image(encoded_image, password):
+    try:
+        in_img = cv2.imread(encoded_image)
+        steg = LSBSteg(in_img)
+        encrypted_text = steg.decode_text()
+        hidden_text = decrypt_text(encrypted_text.encode('utf-8'), password)
+        return hidden_text
+    except InvalidToken:
+        return "Wrong password. Please try again."
 
 # Gradio interface for encoding text into an image
 encode_interface = gr.Interface(
     fn=encode_text_image,
     inputs=[
         gr.Image(type="filepath", label="Carrier Image"),
-        gr.Textbox(label="Secret Text")
+        gr.Textbox(label="Secret Text"),
+        gr.Textbox(label="Password", type="password")
     ],
     outputs=gr.File(label="Download Encoded Image"),
     title="<h2 style='text-align: center;'>Encode Text into Image 🔐</h2>",
-    description="Upload a carrier image and enter the secret text to encode the text into the image."
+    description="Upload an image to serve as the carrier, input the secret message you wish to conceal,<br> and set a secure password. This process will encode your message into the image,<br> ensuring that only those with the correct password can decode and access the hidden text."
 )
 
 # Gradio interface for decoding text from an image
 decode_interface = gr.Interface(
     fn=decode_text_image,
-    inputs=gr.Image(type="filepath", label="Encoded Image"),
+    inputs=[
+        gr.Image(type="filepath", label="Encoded Image"),
+        gr.Textbox(label="Password", type="password")
+    ],
     outputs=gr.Textbox(label="Decoded Text"),
     title="<h2 style='text-align: center;'>Decode Text from Image 🔑</h2>",
-    description="Upload an encoded image to extract the hidden text."
+    description="Upload an image that contains encoded text and enter the correct password to extract and reveal the hidden message.<br> This ensures that only authorized users with the correct password can access the concealed information"
 )
 
 # Launch the Gradio app with tabbed interfaces for encoding and decoding
