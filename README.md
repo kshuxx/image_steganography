@@ -42,9 +42,9 @@ python app.py
 
 ### Run on web 📡
 
-You can also run the project on **Hugging Face**:
+You can also run the project on:
 
-[![Run on Hugging Face](https://img.shields.io/badge/hugging_face-F9AB00?style=for-the-badge&logo=huggingface&color=525252)](https://kshuxx-image-steganography.hf.space)
+[![Run on Hugging Face](https://go-skill-icons.vercel.app/api/icons?i=huggingface)](https://kshuxx-image-steganography.hf.space)
 
 ## Gradio Interface 🌐
 
