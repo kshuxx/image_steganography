@@ -19,7 +19,7 @@ Inspired by the work of  [RobinDavid/LSB-Steganography](https://github.com/Robin
 ### How It Works
 
 1. **Encoding**: The secret message is converted into a binary format. Each bit of the message is then embedded into the least significant bit of the image pixels. This process ensures that the visual changes to the image are minimal and not noticeable to the human eye.
- 
+
 2. **Decoding**: The process is reversed to extract the hidden message from the image. By reading the least significant bits of each pixel, the binary data is reconstructed and converted back into the original message.
 
 ## Running the Application ⚙️
@@ -42,17 +42,9 @@ python app.py
 
 ### Run on web 📡
 
-You can also run the project on **Google Colab** and **Hugging Face**:
+You can also run the project on **Hugging Face**:
 
-<div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: left;">
-    <a href="https://colab.research.google.com/github/kshuxx/image_steganography/blob/main/image_steganography.ipynb">
-        <img alt="Run on Google Colab" src="https://img.shields.io/badge/Colab-F9AB00?style=for-the-badge&logo=googlecolab&color=525252">
-    </a>
-    <a href="https://kshuxx-image-steganography.hf.space">
-        <img alt="Run on Hugging Face" src="https://img.shields.io/badge/hugging_face-F9AB00?style=for-the-badge&logo=huggingface&color=525252">
-    </a>
-</div>
-
+[![Run on Hugging Face](https://img.shields.io/badge/hugging_face-F9AB00?style=for-the-badge&logo=huggingface&color=525252)](https://kshuxx-image-steganography.hf.space)
 
 ## Gradio Interface 🌐
 
