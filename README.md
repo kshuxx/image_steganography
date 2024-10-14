@@ -30,7 +30,13 @@ Clone the repository and install the required dependencies:s
 
 ```bash
 git clone https://github.com/yourusername/image_steganography.git
+```
+
+```bash
 cd image_steganography
+```
+
+```bash
 pip install -r requirements.txt
 ```
 

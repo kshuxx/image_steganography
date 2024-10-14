@@ -142,7 +142,7 @@ def encode_text_image(carrier_image, secret_text, password):
     res = steg.encode_text(encrypted_text.decode('utf-8'))
     output_image = "encoded_image.png"
     cv2.imwrite(output_image, res)
-    return output_image
+    return gr.update(value=output_image, visible=True)
 
 # Function to decode secret text from an encoded image with decryption
 def decode_text_image(encoded_image, password):
@@ -151,9 +151,9 @@ def decode_text_image(encoded_image, password):
         steg = LSBSteg(in_img)
         encrypted_text = steg.decode_text()
         hidden_text = decrypt_text(encrypted_text.encode('utf-8'), password)
-        return hidden_text
+        return gr.update(value=hidden_text, visible=True)
     except InvalidToken:
-        return "Wrong password. Please try again."
+        return gr.update(value="Wrong password. Please try again.", visible=True)
 
 # Gradio interface for encoding text into an image
 encode_interface = gr.Interface(
@@ -163,9 +163,9 @@ encode_interface = gr.Interface(
         gr.Textbox(label="Secret Text"),
         gr.Textbox(label="Password", type="password")
     ],
-    outputs=gr.File(label="Download Encoded Image"),
-    title="<h2 style='text-align: center;'>Encode Text into Image 🔐</h2>",
-    description="Upload an image to serve as the carrier, input the secret message you wish to conceal,<br> and set a secure password. This process will encode your message into the image,<br> ensuring that only those with the correct password can decode and access the hidden text."
+    outputs=gr.File(label="Download Encoded Image", visible=False),
+    title="<div style='text-align: center;'><h2>Encode Text into Image 🔐</h2></div>",
+    description="<div style='text-align: center;'>Upload an image to serve as the carrier, input the secret message you wish to conceal,<br> and set a secure password. This process will encode your message into the image,<br> ensuring that only those with the correct password can decode and access the hidden text.</div>"
 )
 
 # Gradio interface for decoding text from an image
@@ -175,9 +175,9 @@ decode_interface = gr.Interface(
         gr.Image(type="filepath", label="Encoded Image"),
         gr.Textbox(label="Password", type="password")
     ],
-    outputs=gr.Textbox(label="Decoded Text"),
-    title="<h2 style='text-align: center;'>Decode Text from Image 🔑</h2>",
-    description="Upload an image that contains encoded text and enter the correct password to extract and reveal the hidden message.<br> This ensures that only authorized users with the correct password can access the concealed information"
+    outputs=gr.Textbox(label="Decoded Text", visible=False),
+    title="<div style='text-align: center;'><h2>Decode Text from Image 🔑</h2></div>",
+    description="<div style='text-align: center;'>Upload an image that contains encoded text and enter the correct password to extract and reveal the hidden message.<br> This ensures that only authorized users with the correct password can access the concealed information.</div>"
 )
 
 # Launch the Gradio app with tabbed interfaces for encoding and decoding
