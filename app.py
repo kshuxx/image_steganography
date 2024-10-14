@@ -164,8 +164,8 @@ encode_interface = gr.Interface(
         gr.Textbox(label="Password", type="password")
     ],
     outputs=gr.File(label="Download Encoded Image", visible=False),
-    title="<h2 style='text-align: center;'>Encode Text into Image 🔐</h2>",
-    description="Upload an image to serve as the carrier, input the secret message you wish to conceal,<br> and set a secure password. This process will encode your message into the image,<br> ensuring that only those with the correct password can decode and access the hidden text."
+    title="<div style='text-align: center;'><h2>Encode Text into Image 🔐</h2></div>",
+    description="<div style='text-align: center;'>Upload an image to serve as the carrier, input the secret message you wish to conceal,<br> and set a secure password. This process will encode your message into the image,<br> ensuring that only those with the correct password can decode and access the hidden text.</div>"
 )
 
 # Gradio interface for decoding text from an image
@@ -176,8 +176,8 @@ decode_interface = gr.Interface(
         gr.Textbox(label="Password", type="password")
     ],
     outputs=gr.Textbox(label="Decoded Text", visible=False),
-    title="<h2 style='text-align: center;'>Decode Text from Image 🔑</h2>",
-    description="Upload an image that contains encoded text and enter the correct password to extract and reveal the hidden message.<br> This ensures that only authorized users with the correct password can access the concealed information"
+    title="<div style='text-align: center;'><h2>Decode Text from Image 🔑</h2></div>",
+    description="<div style='text-align: center;'>Upload an image that contains encoded text and enter the correct password to extract and reveal the hidden message.<br> This ensures that only authorized users with the correct password can access the concealed information.</div>"
 )
 
 # Launch the Gradio app with tabbed interfaces for encoding and decoding
