@@ -122,3 +122,4 @@ dmypy.json
 *.png
 .gradio
 .conda
+img/
