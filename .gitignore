@@ -98,10 +98,6 @@ venv.bak/
 # Ignore Visual Studio Code specific files
 .vscode/
 
-# Spyder project settings
-.spyderproject
-.spyproject
-
 # Rope project settings
 .ropeproject
 
